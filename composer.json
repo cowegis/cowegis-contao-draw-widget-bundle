@@ -1,0 +1,50 @@
+{
+  "license": "LGPL-3.0-or-later",
+  "type": "contao-bundle",
+  "require": {
+    "php": "^8.2",
+    "contao/core-bundle": "^5.3",
+    "cowegis/cowegis-client-bundle": "^1.0",
+    "cowegis/cowegis-geojson": "^1.0",
+    "symfony/dependency-injection": "^6.4",
+    "symfony/http-kernel": "^6.4"
+  },
+  "require-dev": {
+    "contao/manager-plugin": "^2.1",
+    "doctrine/coding-standard": "^12.0",
+    "phpcq/runner-bootstrap": "@dev"
+  },
+  "conflict": {
+    "contao/manager-plugin": "<2.1 || >= 3.0"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.netzmacht.de/r/"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Cowegis\\Bundle\\ContaoDrawWidget\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Cowegis\\Bundle\\ContaoDrawWidget\\Test\\": "src/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "contao-components/installer": true,
+      "contao/manager-plugin": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "php-http/discovery": true
+    },
+    "sort-packages": true
+  },
+  "extra": {
+    "contao-manager-plugin": "Cowegis\\Bundle\\ContaoDrawWidget\\ContaoManager\\Plugin"
+  }
+}
