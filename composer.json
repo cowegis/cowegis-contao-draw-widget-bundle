@@ -1,4 +1,5 @@
 {
+  "name": "cowegis/cowegis-contao-draw-widget-bundle",
   "license": "LGPL-3.0-or-later",
   "type": "contao-bundle",
   "require": {
