@@ -19,7 +19,7 @@ final class DrawWidget extends Widget
 
     /** @var string */
     // phpcs:ignore SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
-    protected $strTemplate = 'be_widget';
+    protected $strTemplate = 'be_cowegis_draw_widget';
 
     public function generate(): string
     {

@@ -1,0 +1,46 @@
+
+<h3><?= $this->generateLabel().$this->xlabel ?></h3>
+
+<?php $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/cowegisclient/js/cowegis.js'; ?>
+<input type="hidden"
+       name="<?= $this->name ?>"
+       id="ctrl_<?= $this->id ?>"
+       value="<?= $this->value ?>"<?= $this->attributes ?>
+>
+<cowegis-editor id="cowegis_draw_<?= $this->id ?>" class="cowegis-draw-map">
+    <script type="application/vnd.cowegis.map+json">
+        <?= json_encode([
+            'map' => [
+                'options'  => [],
+                'controls' => [
+                    'controlId' => 'geocoder',
+                    'type'      => 'geocoder',
+                    'options'   => [
+                        'defaultMarkGeocode' => false,
+                        'collapsed'          => false,
+                        'placeholder'        => 'Suchen',
+                    ],
+                ],
+                'layers' => [
+                    [
+                        'layerId' => 'osm',
+                        'type' => 'tileLayer',
+                        'urlTemplate' => 'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
+                        'initialVisible' => true,
+                        'options' => [
+                            'attribution' => '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+                        ],
+                    ],
+                ],
+            ],
+            'assets' => [
+                [
+                    'type' => 'stylesheet',
+                    'url' => 'bundles/cowegisclient/css/cowegis.css',
+                ]
+            ]
+        ]); ?>
+    </script>
+</cowegis-editor>
+
+<?= $this->getErrorAsHTML() ?>
