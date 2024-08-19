@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file datatype="plaintext" date="2024-08-19T09:33:08+00:00" original="" source-language="en" target-language="de">
+    <body>
+      <trans-unit id="cowegis.draw.searchLabel" state="new">
+        <source>Search</source>
+        <target>Suchen</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

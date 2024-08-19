@@ -1,46 +1,72 @@
+<h3><?= $this->generateLabel() . $this->xlabel ?></h3>
 
-<h3><?= $this->generateLabel().$this->xlabel ?></h3>
-
-<?php $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/cowegisclient/js/cowegis.js'; ?>
+<?php $GLOBALS['TL_JAVASCRIPT']['cowegisclient'] = 'bundles/cowegisclient/js/cowegis.js'; ?>
 <input type="hidden"
-       name="<?= $this->name ?>"
-       id="ctrl_<?= $this->id ?>"
-       value="<?= $this->value ?>"<?= $this->attributes ?>
+  name="<?= $this->name ?>"
+  id="ctrl_<?= $this->id ?>"
+  value="<?= $this->value ?>"<?= $this->attributes ?>
 >
-<cowegis-editor id="cowegis_draw_<?= $this->id ?>" class="cowegis-draw-map">
-    <script type="application/vnd.cowegis.map+json">
-        <?= json_encode([
-            'map' => [
-                'options'  => [],
-                'controls' => [
-                    'controlId' => 'geocoder',
-                    'type'      => 'geocoder',
-                    'options'   => [
-                        'defaultMarkGeocode' => false,
-                        'collapsed'          => false,
-                        'placeholder'        => 'Suchen',
-                    ],
-                ],
-                'layers' => [
-                    [
-                        'layerId' => 'osm',
-                        'type' => 'tileLayer',
-                        'urlTemplate' => 'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
-                        'initialVisible' => true,
-                        'options' => [
-                            'attribution' => '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
-                        ],
-                    ],
-                ],
-            ],
-            'assets' => [
-                [
-                    'type' => 'stylesheet',
-                    'url' => 'bundles/cowegisclient/css/cowegis.css',
-                ]
-            ]
-        ]); ?>
-    </script>
+<cowegis-editor id="cowegis_draw_<?= $this->id ?>" class="cowegis-draw-map" style="height: <?= $this->height ?? '500px' ?>">
+  <script type="application/vnd.cowegis.map+json">
+    <?= json_encode($this->editorOptions()); ?>
+  </script>
 </cowegis-editor>
+
+<script>
+    (function () {
+        const element = document.getElementById('cowegis_draw_<?= $this->id ?>');
+        const limit   = <?= $this->limit !== null ? var_export($this->limit, true) : 'null' ?>;
+
+        element.addEventListener('cowegis:ready', function () {
+            const input    = document.getElementById('ctrl_<?= $this->id ?>');
+            const onChange = function () {
+                const group        = [];
+                const layers       = element.leaflet.PM.Utils.findLayers(element.map);
+                const limitReached = limit !== null && layers.length >= limit;
+
+                for (const [name] of Object.entries(element.map.pm.Toolbar.buttons)) {
+                    if (! name.startsWith('draw')) {
+                        continue;
+                    }
+
+                    element.map.pm.Toolbar.setButtonDisabled(name, limitReached);
+                }
+
+                if (limitReached) {
+                    element.map.pm.disableDraw();
+                }
+
+                layers.forEach(function (layer) {
+                    const geoJson = layer.toGeoJSON();
+
+                    if (layer instanceof element.leaflet.Circle) {
+                        geoJson.properties.type = 'circle';
+                        geoJson.properties.radius = layer.getRadius();
+                    } else if (layer instanceof element.leaflet.CircleMarker) {
+                        geoJson.properties.type = 'circleMarker';
+                        geoJson.properties.radius = layer.getRadius();
+                    }
+
+                    group.push(geoJson);
+                });
+
+                input.value = JSON.stringify({type: 'FeatureCollection', features: group});
+            }
+
+            onChange();
+
+            element.map.on('pm:create', onChange);
+            element.map.on('pm:remove', onChange);
+
+            element.controls.geocoder.on('markgeocode', function (event) {
+                if (event.geocode.bbox) {
+                    element.map.fitBounds(event.geocode.bbox);
+                } else if (event.geocode.center) {
+                    element.map.setView(event.geocode.center);
+                }
+            })
+        })
+    })();
+</script>
 
 <?= $this->getErrorAsHTML() ?>
