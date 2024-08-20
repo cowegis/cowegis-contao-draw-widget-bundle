@@ -1,6 +1,6 @@
 # Cowegis Draw Widget Bundle
 
-The Cowegis Draw Widget Bundle provides a custom widget for drawing and managing graphical elements within the Contao CMS. 
+The Cowegis Draw Widget Bundle provides a custom widget for drawing and managing vector elements within the Contao CMS. 
 It is designed to integrate seamlessly with Contao, offering users an intuitive interface for creating and editing 
 map vector drawings.
 
@@ -18,7 +18,7 @@ composer require cowegis/cowegis-contao-draw-widget-bundle
 
 ## Configuration
 
-The widget uses the cowegis-editor HTML element, and it's designed to adjust the editor configuration. You can
+The widget uses the `cowegis-editor` HTML element, and it's designed to adjust the editor configuration. You can
 customize the initial map settings and the editor toolbar. The configuration is encoded as JSON, so you are not able
 to use javascript directly here.
 
@@ -32,7 +32,7 @@ $GLOBALS['TL_DCA']['tl_example']['fields']['vectors'] = [
         // Toolbar options, see https://www.geoman.io/docs/toolbar
         // Default:
         'toolbar' => [
-            'position' => 'topleft',
+            'position' => 'bottomleft',
         ],
         // Leaflet map options, see https://leafletjs.com/reference.html#map-option
         // Default:
@@ -62,4 +62,45 @@ $GLOBALS['TL_DCA']['tl_example']['fields']['vectors'] = [
         }
     ]
 ];
+```
+
+## GeoJSON data
+
+GeoJSON does not provide information about circles or circle markers as they are available for Leaflet. To overcome
+this limitation this widget adds GeoJSON properties `type` and `radius` to the geometry.
+
+### Circle
+
+The radius for a circle is defined meters, see https://leafletjs.com/reference.html#circle.
+
+```json
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [125.6, 10.1]
+  },
+  "properties": {
+    "type": "circle",
+    "radius": 100
+  }
+}
+```
+
+### Circle marker
+
+The radius for a circle marker is defined in pixels, see https://leafletjs.com/reference.html#circlemarker.
+
+```json
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [125.6, 10.1]
+  },
+  "properties": {
+    "type": "circleMarker",
+    "radius": 10
+  }
+}
 ```
