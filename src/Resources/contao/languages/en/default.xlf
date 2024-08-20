@@ -5,6 +5,9 @@
       <trans-unit id="cowegis.draw.searchLabel">
         <source>Search</source>
       </trans-unit>
+      <trans-unit id="ERR.cowegis.draw.invalidGeoJSON">
+        <source>GeoJSON expected. Invalid data given.</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

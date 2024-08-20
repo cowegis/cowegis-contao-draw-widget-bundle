@@ -4,7 +4,7 @@
 <input type="hidden"
   name="<?= $this->name ?>"
   id="ctrl_<?= $this->id ?>"
-  value="<?= $this->value ?>"<?= $this->attributes ?>
+  value="<?= \Contao\StringUtil::specialchars($this->value) ?>"<?= $this->attributes ?>
 >
 <cowegis-editor id="cowegis_draw_<?= $this->id ?>" class="cowegis-draw-map" style="height: <?= $this->height ?? '500px' ?>">
   <script type="application/vnd.cowegis.map+json">
@@ -15,7 +15,7 @@
 <script>
     (function () {
         const element = document.getElementById('cowegis_draw_<?= $this->id ?>');
-        const limit   = <?= $this->limit !== null ? var_export($this->limit, true) : 'null' ?>;
+        const limit   = <?= $this->limit ?? 'null' ?>;
 
         element.addEventListener('cowegis:ready', function () {
             const input    = document.getElementById('ctrl_<?= $this->id ?>');

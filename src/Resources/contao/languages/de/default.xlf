@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file datatype="plaintext" date="2024-08-19T09:33:08+00:00" original="" source-language="en" target-language="de">
+  <file datatype="plaintext" date="2024-08-20T06:53:25+00:00" original="" source-language="en" target-language="de">
     <body>
       <trans-unit id="cowegis.draw.searchLabel" state="new">
         <source>Search</source>
         <target>Suchen</target>
+      </trans-unit>
+      <trans-unit id="ERR.cowegis.draw.invalidGeoJSON" state="new">
+        <source>GeoJSON expected. Invalid data given.</source>
+        <target>GeoJSON erwartet. Ungültige Daten angegeben.</target>
       </trans-unit>
     </body>
   </file>

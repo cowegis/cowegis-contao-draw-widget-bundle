@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace Cowegis\Bundle\ContaoDrawWidget\Widget;
 
 use Contao\Widget;
+use Cowegis\GeoJson\Parser;
+use JsonException;
 
 use function array_merge;
 use function in_array;
+use function is_string;
 use function json_decode;
+
+use const JSON_THROW_ON_ERROR;
 
 /**
  * @property string|null                                             $height   Height as css value, e.g. 300px
@@ -74,6 +79,29 @@ final class DrawWidget extends Widget
         return '';
     }
 
+    /** {@inheritDoc} */
+    protected function validator($varInput): string|null
+    {
+        if ($varInput === null) {
+            return null;
+        }
+
+        /** @psalm-suppress MixedAssignment */
+        $varInput = parent::validator($varInput);
+        if (! is_string($varInput)) {
+            return null;
+        }
+
+        try {
+            $parser = new Parser();
+            $parser->parseString($varInput);
+        } catch (JsonException) {
+            $this->addError($this->translate('ERR.cowegis.draw.invalidGeoJSON'));
+        }
+
+        return $varInput;
+    }
+
     /** @return array<string, mixed> */
     public function editorOptions(): array
     {
@@ -103,9 +131,7 @@ final class DrawWidget extends Widget
                         'options'   => [
                             'defaultMarkGeocode' => false,
                             'collapsed'          => false,
-                            'placeholder'        => /** @psalm-suppress MixedMethodCall */ self::getContainer()
-                                ->get('translator')
-                                ->trans('cowegis.draw.searchLabel', [], 'contao_default'),
+                            'placeholder'        => $this->translate('cowegis.draw.searchLabel'),
                         ],
                     ],
                     [
@@ -137,9 +163,7 @@ final class DrawWidget extends Widget
                         'data' => [
                             'type'   => 'inline',
                             'format' => 'geojson',
-                            'data'   => $this->value
-                                ? json_decode($this->value, true)
-                                : ['type' => 'FeatureCollection', 'features' => []],
+                            'data'   => $this->getValidData(),
                         ],
                     ],
                 ],
@@ -167,5 +191,38 @@ final class DrawWidget extends Widget
         }
 
         return $options;
+    }
+
+    /**
+     * @psalm-suppress MixedInferredReturnType
+     * @psalm-suppress MixedReturnStatement
+     */
+    private function translate(string $key): string
+    {
+        /** @psalm-suppress MixedMethodCall */
+        return self::getContainer()
+        ->get('translator')
+        ->trans($key, [], 'contao_default');
+    }
+
+    /**
+     * @return array<string, mixed>
+     *
+     * @psalm-suppress MixedInferredReturnType
+     * @psalm-suppress MixedReturnStatement
+     */
+    private function getValidData(): array
+    {
+        if (! is_string($this->value)) {
+            return ['type' => 'FeatureCollection', 'features' => []];
+        }
+
+        try {
+            (new Parser())->parseString($this->value);
+        } catch (JsonException) {
+            return ['type' => 'FeatureCollection', 'features' => []];
+        }
+
+        return json_decode($this->value, true, JSON_THROW_ON_ERROR);
     }
 }
