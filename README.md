@@ -18,9 +18,9 @@ composer require cowegis/cowegis-contao-draw-widget-bundle
 
 ## Configuration
 
-The widget uses the `cowegis-editor` HTML element, and it's designed to adjust the editor configuration. You can
-customize the initial map settings and the editor toolbar. The configuration is encoded as JSON, so you are not able
-to use javascript directly here.
+The widget uses the `cowegis-editor` HTML element using the awesome [geoman.io](https://geoman.io) editor. 
+It's designed to adjust the editor configuration. You can customize the initial map settings and the editor toolbar.
+The configuration is encoded as JSON, so you are not able to use javascript directly here.
 
 ```php
 $GLOBALS['TL_DCA']['tl_example']['fields']['vectors'] = [
