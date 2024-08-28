@@ -17,6 +17,7 @@ final class Plugin implements BundlePluginInterface
     public function getBundles(ParserInterface $parser): array
     {
         return [
+            BundleConfig::create(CowegisClientBundle::class),
             BundleConfig::create(CowegisContaoDrawWidgetBundle::class)
                 ->setLoadAfter([ContaoCoreBundle::class, CowegisClientBundle::class]),
         ];
