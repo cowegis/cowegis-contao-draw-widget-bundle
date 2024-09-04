@@ -6,7 +6,7 @@
   id="ctrl_<?= $this->id ?>"
   value="<?= \Contao\StringUtil::specialchars($this->value) ?>"<?= $this->attributes ?>
 >
-<cowegis-editor id="cowegis_draw_<?= $this->id ?>" class="cowegis-draw-map" style="height: <?= $this->height ?? '500px' ?>">
+<cowegis-editor id="cowegis_draw_<?= $this->id ?>" class="cowegis-draw-map" style="height: <?= $this->height ?? '500px' ?>;color-scheme: only light">
   <script type="application/vnd.cowegis.map+json">
     <?= json_encode($this->editorOptions()); ?>
   </script>
