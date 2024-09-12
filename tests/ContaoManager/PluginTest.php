@@ -27,11 +27,12 @@ final class PluginTest extends TestCase
         $bundles = $plugin->getBundles($parser);
 
         // Assert that the returned array contains one BundleConfig object
-        $this->assertCount(1, $bundles);
+        $this->assertCount(2, $bundles);
 
         // Assert that the BundleConfig object is configured correctly
         $this->assertInstanceOf(BundleConfig::class, $bundles[0]);
-        $this->assertSame(CowegisContaoDrawWidgetBundle::class, $bundles[0]->getName());
-        $this->assertSame([ContaoCoreBundle::class, CowegisClientBundle::class], $bundles[0]->getLoadAfter());
+        $this->assertSame(CowegisClientBundle::class, $bundles[0]->getName());
+        $this->assertSame(CowegisContaoDrawWidgetBundle::class, $bundles[1]->getName());
+        $this->assertSame([ContaoCoreBundle::class, CowegisClientBundle::class], $bundles[1]->getLoadAfter());
     }
 }
