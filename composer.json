@@ -7,8 +7,8 @@
     "contao/core-bundle": "^5.3",
     "cowegis/cowegis-client-bundle": "^1.0",
     "cowegis/cowegis-geojson": "^1.0",
-    "symfony/dependency-injection": "^6.4",
-    "symfony/http-kernel": "^6.4"
+    "symfony/dependency-injection": "^6.4 || ^7.4",
+    "symfony/http-kernel": "^6.4 || ^7.4"
   },
   "require-dev": {
     "contao/manager-plugin": "^2.1",
