@@ -1,6 +1,6 @@
 <h3><?= $this->generateLabel() . $this->xlabel ?></h3>
 
-<?php $GLOBALS['TL_JAVASCRIPT']['cowegisclient'] = 'bundles/cowegisclient/js/cowegis.js'; ?>
+<?php $GLOBALS['TL_JAVASCRIPT']['cowegisclient'] = '/bundles/cowegisclient/js/cowegis.js' ?>
 <input type="hidden"
   name="<?= $this->name ?>"
   id="ctrl_<?= $this->id ?>"
