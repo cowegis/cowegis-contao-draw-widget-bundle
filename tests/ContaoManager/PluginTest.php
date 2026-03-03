@@ -18,7 +18,7 @@ final class PluginTest extends TestCase
     public function testGetBundles(): void
     {
         // Create a mock ParserInterface
-        $parser = $this->createMock(ParserInterface::class);
+        $parser = $this->createStub(ParserInterface::class);
 
         // Instantiate the Plugin
         $plugin = new Plugin();

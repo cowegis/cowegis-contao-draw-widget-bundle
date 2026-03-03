@@ -7,6 +7,7 @@ namespace Cowegis\Bundle\ContaoDrawWidget\Widget;
 use Contao\Widget;
 use Cowegis\GeoJson\Parser;
 use JsonException;
+use Override;
 
 use function array_merge;
 use function in_array;
@@ -16,16 +17,16 @@ use function json_decode;
 use const JSON_THROW_ON_ERROR;
 
 /**
- * @property string|null                                             $height   Height as css value, e.g. 300px
- * @property array<string,mixed>                                     $map      Map options
- * @property array<string,mixed>                                     $toolbar  Toolbar options
+ * @property string|null                                             $height   Height as CSS value, e.g., 300px
+ * @property array<string,mixed>|null                                $map      Map options
+ * @property array<string,mixed>|null                                $toolbar  Toolbar options
  * @property callable(array<string,mixed>): array<string,mixed>|null $callback Callback
  * @property string|null                                             $language Customized language of the editor
  * @psalm-suppress PropertyNotSetInConstructor
  */
 final class DrawWidget extends Widget
 {
-    private const SUPPORTED_LANGUAGES = [
+    private const array SUPPORTED_LANGUAGES = [
         'cz',
         'da',
         'de',
@@ -74,12 +75,14 @@ final class DrawWidget extends Widget
         $this->decodeEntities = true;
     }
 
+    #[Override]
     public function generate(): string
     {
         return '';
     }
 
     /** {@inheritDoc} */
+    #[Override]
     protected function validator($varInput): string|null
     {
         if ($varInput === null) {

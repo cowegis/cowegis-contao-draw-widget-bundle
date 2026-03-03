@@ -3,7 +3,7 @@
   "license": "LGPL-3.0-or-later",
   "type": "contao-bundle",
   "require": {
-    "php": "^8.2",
+    "php": "^8.3",
     "contao/core-bundle": "^5.3",
     "cowegis/cowegis-client-bundle": "^1.0",
     "cowegis/cowegis-geojson": "^1.0",
@@ -12,7 +12,6 @@
   },
   "require-dev": {
     "contao/manager-plugin": "^2.1",
-    "doctrine/coding-standard": "^12.0",
     "phpcq/runner-bootstrap": "@dev"
   },
   "conflict": {

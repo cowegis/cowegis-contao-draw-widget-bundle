@@ -21,7 +21,5 @@ return RectorConfig::configure()
         typeDeclarations: true,
         privatization: true,
         instanceOf: true,
-        strictBooleans: true,
         phpunitCodeQuality: true,
-        phpunit: true,
     );
